@@ -1,0 +1,1178 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>demo_kruskal</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-03-22"><meta name="DC.source" content="demo_kruskal.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Kruskal linear regression, 2D covariates</a></li><li><a href="#10">Warm starting from coarsened estimate</a></li><li><a href="#13">Sparse Kruskal linear regression, 2D covariates</a></li><li><a href="#18">Kruskal logistic regression, 2D covariates</a></li><li><a href="#27">Sparse Kruskal logistic regression, 2D covariates</a></li><li><a href="#33">Kruskal linear regression, 3D covariates</a></li><li><a href="#41">Sparse Kruskal linear regression, 3D covariates</a></li></ul></div><h2 id="1">Kruskal linear regression, 2D covariates</h2><pre class="codeinput">clear;
+<span class="comment">% reset random seed</span>
+s = RandStream(<span class="string">'mt19937ar'</span>,<span class="string">'Seed'</span>,2);
+RandStream.setGlobalStream(s);
+</pre><p>2D true signal: 64-by-64 cross</p><pre class="codeinput">shape = imread(<span class="string">'cross.gif'</span>);
+shape = array_resize(shape,[32,32]); <span class="comment">% 32-by-32</span>
+b = zeros(2*size(shape));
+b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, <span class="keyword">...</span>
+    (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
+[p1,p2] = size(b);
+disp(size(b));
+</pre><pre class="codeoutput">    64    64
+
+</pre><p>True coefficients for regular (non-array) covariates</p><pre class="codeinput">p0 = 5;
+b0 = ones(p0,1);
+</pre><p>Simulate covariates</p><pre class="codeinput">n = 500;    <span class="comment">% sample size</span>
+X = randn(n,p0);   <span class="comment">% n-by-p0 regular design matrix</span>
+M = tensor(randn(p1,p2,n));  <span class="comment">% p1-by-p2-by-n matrix variates</span>
+disp(size(M));
+</pre><pre class="codeoutput">    64    64   500
+
+</pre><p>Simulate responses</p><pre class="codeinput">mu = X*b0 + double(ttt(tensor(b), M, 1:2));
+sigma = 1;  <span class="comment">% noise level</span>
+y = mu + sigma*randn(n,1);
+</pre><p>Estimate using Kruskal linear regression - rank 1</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 1'</span>);
+[~,beta_rk1,glmstats1] = kruskal_reg(X,M,y,1,<span class="string">'normal'</span>);
+toc;
+disp(glmstats1{end});
+</pre><pre class="codeoutput">rank 1
+Elapsed time is 0.771229 seconds.
+         beta: [6&times;1 double]
+          dfe: 494
+         sfit: 5.9801
+            s: 5.9801
+      estdisp: 1
+         covb: [6&times;6 double]
+           se: [6&times;1 double]
+    coeffcorr: [6&times;6 double]
+            t: [6&times;1 double]
+            p: [6&times;1 double]
+        resid: [500&times;1 double]
+       residp: [500&times;1 double]
+       residd: [500&times;1 double]
+       resida: [500&times;1 double]
+          BIC: 1.8486e+04
+         yhat: [500&times;1 double]
+
+</pre><p>Estimate using Kruskal linear regression - rank 2</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 2'</span>);
+[~,beta_rk2,glmstats2] = kruskal_reg(X,M,y,2,<span class="string">'normal'</span>);
+toc;
+disp(glmstats2{end});
+</pre><pre class="codeoutput">rank 2
+Elapsed time is 2.091484 seconds.
+         beta: [6&times;1 double]
+          dfe: 494
+         sfit: 0.6878
+            s: 0.6878
+      estdisp: 1
+         covb: [6&times;6 double]
+           se: [6&times;1 double]
+    coeffcorr: [6&times;6 double]
+            t: [6&times;1 double]
+            p: [6&times;1 double]
+        resid: [500&times;1 double]
+       residp: [500&times;1 double]
+       residd: [500&times;1 double]
+       resida: [500&times;1 double]
+          BIC: 1.8309e+03
+         yhat: [500&times;1 double]
+
+</pre><p>Estimate using Kruskal linear regression - rank 3</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 3'</span>);
+[~,beta_rk3,glmstats3,dev3] = kruskal_reg(X,M,y,3,<span class="string">'normal'</span>);
+toc;
+disp(glmstats3{end});
+</pre><pre class="codeoutput">rank 3
+Elapsed time is 10.206717 seconds.
+         beta: [6&times;1 double]
+          dfe: 494
+         sfit: 0.3709
+            s: 0.3709
+      estdisp: 1
+         covb: [6&times;6 double]
+           se: [6&times;1 double]
+    coeffcorr: [6&times;6 double]
+            t: [6&times;1 double]
+            p: [6&times;1 double]
+        resid: [500&times;1 double]
+       residp: [500&times;1 double]
+       residd: [500&times;1 double]
+       resida: [500&times;1 double]
+          BIC: 2.4295e+03
+         yhat: [500&times;1 double]
+
+</pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({[<span class="string">'rank=1, '</span>, <span class="string">' BIC='</span>,num2str(glmstats1{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({[<span class="string">'rank=2 '</span>, <span class="string">' BIC='</span>,num2str(glmstats2{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({[<span class="string">'rank=3, '</span>, <span class="string">' BIC='</span>,num2str(glmstats3{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+</pre><img vspace="5" hspace="5" src="demo_kruskal_01.png" style="width:560px;height:420px;" alt=""> <h2 id="10">Warm starting from coarsened estimate</h2><pre class="codeinput"><span class="comment">% Reduce array covariates to smaller size and fit rank-3 model</span>
+tic;
+M_small = array_resize(M, [16 16 size(M,3)]);
+[~,beta_small] = kruskal_reg(X,M_small,y,3,<span class="string">'normal'</span>);
+disp(size(beta_small));
+</pre><pre class="codeoutput">    16    16
+
+</pre><p>Use reduced-sized estimate as initial point</p><pre class="codeinput">[~,beta_ws,glmstats_ws,dev_ws] = kruskal_reg(X,M,y,3,<span class="string">'normal'</span>, <span class="keyword">...</span>
+    <span class="string">'B0'</span>,array_resize(beta_small,[p1 p2]));
+toc;
+disp(size(beta_ws));
+</pre><pre class="codeoutput">Elapsed time is 2.820957 seconds.
+    64    64
+
+</pre><p>Compare estimate using warm start and previous estimate (5 random initial points); note the smaller deviance and BIC from warm start</p><pre class="codeinput">disp([dev3 dev_ws]);
+disp([glmstats3{end}.BIC glmstats_ws{end}.BIC]);
+
+<span class="comment">% disp true and recovered signals</span>
+figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(1,3,1);
+imagesc(-b);
+colormap(gray);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(1,3,2);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({<span class="string">'Estimate from 5 init. pts'</span>; <span class="keyword">...</span>
+    [<span class="string">'BIC='</span>,num2str(glmstats3{end}.BIC,5)]; <span class="keyword">...</span>
+    [<span class="string">'dev='</span>,num2str(dev3,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(1,3,3);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({<span class="string">'Estimate from warm start'</span>; <span class="keyword">...</span>
+    [<span class="string">'BIC='</span>,num2str(glmstats_ws{end}.BIC,5)]; <span class="keyword">...</span>
+    [<span class="string">'dev='</span>,num2str(dev_ws,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+</pre><pre class="codeoutput">   67.9696   67.2942
+
+   1.0e+03 *
+
+    2.4295    2.4288
+
+</pre><img vspace="5" hspace="5" src="demo_kruskal_02.png" style="width:560px;height:420px;" alt=""> <h2 id="13">Sparse Kruskal linear regression, 2D covariates</h2><pre class="codeinput"><span class="comment">% Set lasso penalty and tuning parameter values</span>
+pentype = <span class="string">'enet'</span>;
+penparam = 1;
+lambda = [1,100,1000];
+</pre><p>Estimate using Kruskal sparse linear regression - lambda 1 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(1))]);
+[~,beta_rk1,~,glmstat_rk1] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
+    lambda(1),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=1
+Elapsed time is 0.193133 seconds.
+</pre><p>Estimate using Kruskal sparse linear regression - lambda 2 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(2))]);
+[~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
+    lambda(2),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=100
+Elapsed time is 0.341665 seconds.
+</pre><p>Estimate using Kruskal sparse linear regression - lambda 3 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(3))]);
+[~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
+    lambda(3),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=1000
+Elapsed time is 0.136714 seconds.
+</pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(1))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk1{end}.BIC)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(2))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk2{end}.BIC)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(3))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk3{end}.BIC)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+</pre><img vspace="5" hspace="5" src="demo_kruskal_03.png" style="width:560px;height:420px;" alt=""> <h2 id="18">Kruskal logistic regression, 2D covariates</h2><pre class="codeinput">clear;
+<span class="comment">% reset random seed</span>
+s = RandStream(<span class="string">'mt19937ar'</span>,<span class="string">'Seed'</span>,2);
+RandStream.setGlobalStream(s);
+</pre><p>True coefficients for regular covariates</p><pre class="codeinput">p0 = 5;
+b0 = ones(p0,1);
+</pre><p>2D true signal: 64-by-64 cross</p><pre class="codeinput">shape = imread(<span class="string">'cross.gif'</span>);
+shape = array_resize(shape,[32,32]); <span class="comment">% 32-by-32</span>
+b = zeros(2*size(shape));
+b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, <span class="keyword">...</span>
+    (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
+[p1,p2] = size(b);
+disp(size(b));
+</pre><pre class="codeoutput">    64    64
+
+</pre><p>Simulate covariates</p><pre class="codeinput">n = 1000;    <span class="comment">% sample size</span>
+X = randn(n,p0);   <span class="comment">% n-by-p regular design matrix</span>
+M = tensor(randn(p1,p2,n));  <span class="comment">% p1-by-p2-by-n matrix variates</span>
+disp(size(M));
+</pre><pre class="codeoutput">          64          64        1000
+
+</pre><p>Simulate binary responses from the systematic components</p><pre class="codeinput">mu = X*b0 + double(ttt(tensor(b), M, 1:2));
+y = binornd(1, 1./(1+exp(-mu)));
+</pre><p>Estimate using Kruskal logistic regression - rank 1</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 1'</span>);
+[beta0_rk1,beta_rk1,glmstats1,dev1] = kruskal_reg(X,M,y,1,<span class="string">'binomial'</span>);
+toc;
+</pre><pre class="codeoutput">rank 1
+Elapsed time is 1.441793 seconds.
+</pre><p>Estimate using Kruskal logistic regression - rank 2</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 2'</span>);
+<span class="comment">% a rough estimate from reduced sized data</span>
+M_reduce = array_resize(M, [16 16 size(M,3)]);
+[~,beta_rk2] = kruskal_reg(X,M_reduce,y,2,<span class="string">'binomial'</span>);
+beta_rk2 = array_resize(beta_rk2, [64 64]);
+<span class="comment">% warm start from coarsened estimate</span>
+[beta0_rk2,beta_rk2,glmstats2,dev2] = kruskal_reg(X,M,y,2,<span class="string">'binomial'</span>, <span class="keyword">...</span>
+    <span class="string">'B0'</span>, beta_rk2);
+toc;
+</pre><pre class="codeoutput">rank 2
+Elapsed time is 3.345091 seconds.
+</pre><p>Estimate using Kruskal logistic regression - rank 3</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 3'</span>);
+<span class="comment">% a rough estimate from reduced sized data</span>
+[~,beta_rk3] = kruskal_reg(X,M_reduce,y,3,<span class="string">'binomial'</span>);
+beta_rk3 = array_resize(beta_rk3, [64 64]);
+<span class="comment">% warm start from coarsened estimate</span>
+[beta0_rk3,beta_rk3,glmstats3,dev3] = kruskal_reg(X,M,y,3,<span class="string">'binomial'</span>, <span class="keyword">...</span>
+        <span class="string">'B0'</span>, beta_rk3);
+toc;
+</pre><pre class="codeoutput">rank 3
+Elapsed time is 7.077017 seconds.
+</pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({[<span class="string">'rank=1, '</span>, <span class="string">' BIC='</span>,num2str(glmstats1{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({[<span class="string">'rank=2 '</span>, <span class="string">' BIC='</span>,num2str(glmstats2{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({[<span class="string">'rank=3, '</span>, <span class="string">' BIC='</span>,num2str(glmstats3{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+</pre><img vspace="5" hspace="5" src="demo_kruskal_04.png" style="width:560px;height:420px;" alt=""> <h2 id="27">Sparse Kruskal logistic regression, 2D covariates</h2><p>Set lasso penalty and tuning parameter values</p><pre class="codeinput">pentype = <span class="string">'enet'</span>;
+penparam = 1;
+lambda = [5,10,30];
+</pre><p>Estimate using Kruskal sparse logistic regression - lambda 1 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(1))]);
+[~,beta_rk1,~,glmstat_rk1] = kruskal_sparsereg(X,M,y,3,<span class="string">'binomial'</span>,<span class="keyword">...</span>
+    lambda(1),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=5
+Elapsed time is 0.607638 seconds.
+</pre><p>Estimate using Kruskal sparse logistic regression - lambda 2 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(2))]);
+[~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,<span class="string">'binomial'</span>,<span class="keyword">...</span>
+    lambda(2),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=10
+Elapsed time is 0.517535 seconds.
+</pre><p>Estimate using Kruskal sparse logistic regression - lambda 3 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(3))]);
+[~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,<span class="string">'binomial'</span>,<span class="keyword">...</span>
+    lambda(3),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=30
+Elapsed time is 0.340170 seconds.
+</pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(1))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk1{end}.BIC)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(2))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk2{end}.BIC)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(3))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk3{end}.BIC)]});
+axis <span class="string">equal</span>;
+axis <span class="string">tight</span>;
+</pre><img vspace="5" hspace="5" src="demo_kruskal_05.png" style="width:560px;height:420px;" alt=""> <h2 id="33">Kruskal linear regression, 3D covariates</h2><pre class="codeinput">clear;
+<span class="comment">% reset random seed</span>
+s = RandStream(<span class="string">'mt19937ar'</span>,<span class="string">'Seed'</span>,2);
+RandStream.setGlobalStream(s);
+</pre><p>True 3D signal: 25-by-25-by-25 "two-cube"</p><pre class="codeinput">b = zeros(25,25,25);
+b(6:10,6:10,6:10) = 1;
+b(18:22,18:22,8:22) = 1;
+[p1, p2, p3] = size(b);
+<span class="comment">% true coefficients for regular covariates</span>
+p0 = 5;
+b0 = ones(p0,1);
+</pre><p>Simulate covariates</p><pre class="codeinput">n = 500;    <span class="comment">% sample size</span>
+X = randn(n,p0);   <span class="comment">% n-by-p regular design matrix</span>
+M = tensor(randn(p1,p2,p3,n));  <span class="comment">% p1-by-p2-by-p3 3D variates</span>
+disp(size(M));
+</pre><pre class="codeoutput">    25    25    25   500
+
+</pre><p>Simulate responses</p><pre class="codeinput">mu = X*b0 + double(ttt(M,tensor(b),1:3));
+sigma = 1;  <span class="comment">% noise level</span>
+y = mu + sigma*randn(n,1);
+</pre><p>Estimate by Kruskal linear regression - rank 1</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 1'</span>);
+[~,beta_rk1,glmstats1] = kruskal_reg(X,M,y,1,<span class="string">'normal'</span>);
+toc;
+</pre><pre class="codeoutput">rank 1
+Elapsed time is 2.777152 seconds.
+</pre><p>Estimate by Kruskal linear regression - rank 2</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 2'</span>);
+<span class="comment">% a rough estimate from reduced sized data</span>
+M_reduce = array_resize(M, [10 10 10 size(M,4)]);
+[~,beta_rk2] = kruskal_reg(X,M_reduce,y,2,<span class="string">'normal'</span>);
+beta_rk2 = array_resize(beta_rk2, [p1 p2 p3]);
+<span class="comment">% warm start from coarsened estimate</span>
+[~,beta_rk2,glmstats2] = kruskal_reg(X,M,y,2,<span class="string">'normal'</span>,<span class="string">'B0'</span>,beta_rk2);
+toc;
+</pre><pre class="codeoutput">rank 2
+Elapsed time is 2.203241 seconds.
+</pre><p>Estimate by Kruskal linear regression - rank 3</p><pre class="codeinput">tic;
+disp(<span class="string">'rank 3'</span>);
+<span class="comment">% a rough estimate from reduced sized data</span>
+[~,beta_rk3] = kruskal_reg(X,M_reduce,y,3,<span class="string">'normal'</span>);
+beta_rk3 = array_resize(beta_rk3, [p1 p2 p3]);
+<span class="comment">% warm start from coarsened estimate</span>
+[~,beta_rk3,glmstats3] = kruskal_reg(X,M,y,3,<span class="string">'normal'</span>,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">rank 3
+Elapsed time is 3.378684 seconds.
+</pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(2,2,1);
+view(3);
+isosurface(b,.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+
+subplot(2,2,2);
+isosurface(double(beta_rk1),0.5);
+view(3);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({[<span class="string">'rank=1, '</span>, <span class="string">' BIC='</span>, num2str(glmstats1{end}.BIC,5)]});
+daspect(daspect);
+
+subplot(2,2,3);
+view(3);
+isosurface(double(beta_rk2),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({[<span class="string">'rank=2, '</span>, <span class="string">' BIC='</span>, num2str(glmstats2{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+
+subplot(2,2,4);
+view(3);
+isosurface(double(beta_rk3),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({[<span class="string">'rank=3, '</span>, <span class="string">' BIC='</span>, num2str(glmstats3{end}.BIC,5)]});
+axis <span class="string">equal</span>;
+</pre><img vspace="5" hspace="5" src="demo_kruskal_06.png" style="width:560px;height:420px;" alt=""> <h2 id="41">Sparse Kruskal linear regression, 3D covariates</h2><p>Set lasso penalty and tuning parameter values</p><pre class="codeinput">pentype = <span class="string">'enet'</span>;
+penparam = 1;
+lambda = [10,100,2000];
+</pre><p>Estimate using Kruskal sparse linear regression - lambda 1 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(1))]);
+[~,beta_rk1,~,glmstat_rk1] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
+    lambda(1),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=10
+Elapsed time is 0.529559 seconds.
+</pre><p>Estimate using Kruskal sparse linear regression - lambda 2 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(2))]);
+[~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
+    lambda(2),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=100
+Elapsed time is 0.365113 seconds.
+</pre><p>Estimate using Kruskal sparse linear regression - lambda 3 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
+disp([<span class="string">'lambda='</span>, num2str(lambda(3))]);
+[~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
+    lambda(3),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
+toc;
+</pre><pre class="codeoutput">lambda=2000
+Elapsed time is 0.362285 seconds.
+</pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
+set(gca,<span class="string">'FontSize'</span>,20);
+
+subplot(2,2,1);
+view(3);
+isosurface(b,.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title(<span class="string">'True Signal'</span>);
+axis <span class="string">equal</span>;
+
+subplot(2,2,2);
+isosurface(double(beta_rk1),0.5);
+view(3);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+daspect(daspect);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(1))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk1{end}.BIC)]});
+axis <span class="string">equal</span>;
+
+subplot(2,2,3);
+view(3);
+isosurface(double(beta_rk2),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(2))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk2{end}.BIC)]});
+daspect(daspect);
+
+subplot(2,2,4);
+view(3);
+isosurface(double(beta_rk3),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({[<span class="string">'TR(3),'</span> pentype <span class="string">'('</span> num2str(penparam), <span class="string">'), \lambda='</span>, <span class="keyword">...</span>
+    num2str(lambda(3))];<span class="keyword">...</span>
+    [<span class="string">'BIC='</span>, num2str(glmstat_rk3{end}.BIC)]});
+daspect(daspect);
+</pre><img vspace="5" hspace="5" src="demo_kruskal_07.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Kruskal linear regression, 2D covariates
+
+clear;
+% reset random seed
+s = RandStream('mt19937ar','Seed',2);
+RandStream.setGlobalStream(s);
+
+%%
+% 2D true signal: 64-by-64 cross
+shape = imread('cross.gif'); 
+shape = array_resize(shape,[32,32]); % 32-by-32
+b = zeros(2*size(shape));
+b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
+    (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
+[p1,p2] = size(b);
+disp(size(b));
+
+%%
+% True coefficients for regular (non-array) covariates
+p0 = 5;
+b0 = ones(p0,1);
+
+%%
+% Simulate covariates
+n = 500;    % sample size
+X = randn(n,p0);   % n-by-p0 regular design matrix
+M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
+disp(size(M));
+
+%%
+% Simulate responses
+mu = X*b0 + double(ttt(tensor(b), M, 1:2));
+sigma = 1;  % noise level
+y = mu + sigma*randn(n,1);
+
+%%
+% Estimate using Kruskal linear regression - rank 1
+tic;
+disp('rank 1');
+[~,beta_rk1,glmstats1] = kruskal_reg(X,M,y,1,'normal');
+toc;
+disp(glmstats1{end});
+
+%%
+% Estimate using Kruskal linear regression - rank 2
+tic;
+disp('rank 2');
+[~,beta_rk2,glmstats2] = kruskal_reg(X,M,y,2,'normal');
+toc;
+disp(glmstats2{end});
+
+%%
+% Estimate using Kruskal linear regression - rank 3
+tic;
+disp('rank 3');
+[~,beta_rk3,glmstats3,dev3] = kruskal_reg(X,M,y,3,'normal');
+toc;
+disp(glmstats3{end});
+
+%%
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title('True Signal');
+axis equal;
+axis tight;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({['rank=1, ', ' BIC=',num2str(glmstats1{end}.BIC,5)]});
+axis equal;
+axis tight;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({['rank=2 ', ' BIC=',num2str(glmstats2{end}.BIC,5)]});
+axis equal;
+axis tight;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({['rank=3, ', ' BIC=',num2str(glmstats3{end}.BIC,5)]});
+axis equal;
+axis tight;
+
+%% Warm starting from coarsened estimate
+
+% Reduce array covariates to smaller size and fit rank-3 model
+tic;
+M_small = array_resize(M, [16 16 size(M,3)]);
+[~,beta_small] = kruskal_reg(X,M_small,y,3,'normal');
+disp(size(beta_small));
+
+%%
+% Use reduced-sized estimate as initial point
+[~,beta_ws,glmstats_ws,dev_ws] = kruskal_reg(X,M,y,3,'normal', ...
+    'B0',array_resize(beta_small,[p1 p2]));
+toc;
+disp(size(beta_ws));
+
+%%
+% Compare estimate using warm start and previous estimate (5 random
+% initial points); note the smaller deviance and BIC from warm start
+disp([dev3 dev_ws]);
+disp([glmstats3{end}.BIC glmstats_ws{end}.BIC]);
+
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(1,3,1);
+imagesc(-b);
+colormap(gray);
+title('True Signal');
+axis equal;
+axis tight;
+
+subplot(1,3,2);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({'Estimate from 5 init. pts'; ...
+    ['BIC=',num2str(glmstats3{end}.BIC,5)]; ...
+    ['dev=',num2str(dev3,5)]});
+axis equal;
+axis tight;
+
+subplot(1,3,3);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({'Estimate from warm start'; ...
+    ['BIC=',num2str(glmstats_ws{end}.BIC,5)]; ...
+    ['dev=',num2str(dev_ws,5)]});
+axis equal;
+axis tight;
+
+%% Sparse Kruskal linear regression, 2D covariates
+
+% Set lasso penalty and tuning parameter values
+pentype = 'enet';
+penparam = 1;
+lambda = [1,100,1000];
+
+%%
+% Estimate using Kruskal sparse linear regression - lambda 1
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(1))]);
+[~,beta_rk1,~,glmstat_rk1] = kruskal_sparsereg(X,M,y,3,'normal',...
+    lambda(1),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% Estimate using Kruskal sparse linear regression - lambda 2
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(2))]);
+[~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,'normal',...
+    lambda(2),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% Estimate using Kruskal sparse linear regression - lambda 3
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(3))]);
+[~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,'normal',...
+    lambda(3),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title('True Signal');
+axis equal;
+axis tight;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(1))];...
+    ['BIC=', num2str(glmstat_rk1{end}.BIC)]});
+axis equal;
+axis tight;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(2))];...
+    ['BIC=', num2str(glmstat_rk2{end}.BIC)]});
+axis equal;
+axis tight;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(3))];...
+    ['BIC=', num2str(glmstat_rk3{end}.BIC)]});
+axis equal;
+axis tight;
+
+%% Kruskal logistic regression, 2D covariates
+
+clear;
+% reset random seed
+s = RandStream('mt19937ar','Seed',2);
+RandStream.setGlobalStream(s);
+
+%%
+% True coefficients for regular covariates
+p0 = 5;
+b0 = ones(p0,1);
+
+%%
+% 2D true signal: 64-by-64 cross
+shape = imread('cross.gif'); 
+shape = array_resize(shape,[32,32]); % 32-by-32
+b = zeros(2*size(shape));
+b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
+    (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
+[p1,p2] = size(b);
+disp(size(b));
+
+%%
+% Simulate covariates
+n = 1000;    % sample size
+X = randn(n,p0);   % n-by-p regular design matrix
+M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
+disp(size(M));
+
+%%
+% Simulate binary responses from the systematic components
+mu = X*b0 + double(ttt(tensor(b), M, 1:2));
+y = binornd(1, 1./(1+exp(-mu)));
+
+%%
+% Estimate using Kruskal logistic regression - rank 1
+tic;
+disp('rank 1');
+[beta0_rk1,beta_rk1,glmstats1,dev1] = kruskal_reg(X,M,y,1,'binomial');
+toc;
+
+%%
+% Estimate using Kruskal logistic regression - rank 2
+tic;
+disp('rank 2');
+% a rough estimate from reduced sized data
+M_reduce = array_resize(M, [16 16 size(M,3)]);
+[~,beta_rk2] = kruskal_reg(X,M_reduce,y,2,'binomial');
+beta_rk2 = array_resize(beta_rk2, [64 64]);
+% warm start from coarsened estimate
+[beta0_rk2,beta_rk2,glmstats2,dev2] = kruskal_reg(X,M,y,2,'binomial', ...
+    'B0', beta_rk2);
+toc;
+
+%%
+% Estimate using Kruskal logistic regression - rank 3
+tic;
+disp('rank 3');
+% a rough estimate from reduced sized data
+[~,beta_rk3] = kruskal_reg(X,M_reduce,y,3,'binomial');
+beta_rk3 = array_resize(beta_rk3, [64 64]);
+% warm start from coarsened estimate
+[beta0_rk3,beta_rk3,glmstats3,dev3] = kruskal_reg(X,M,y,3,'binomial', ...
+        'B0', beta_rk3);
+toc;
+
+%%
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title('True Signal');
+axis equal;
+axis tight;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({['rank=1, ', ' BIC=',num2str(glmstats1{end}.BIC,5)]});
+axis equal;
+axis tight;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({['rank=2 ', ' BIC=',num2str(glmstats2{end}.BIC,5)]});
+axis equal;
+axis tight;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({['rank=3, ', ' BIC=',num2str(glmstats3{end}.BIC,5)]});
+axis equal;
+axis tight;
+
+%% Sparse Kruskal logistic regression, 2D covariates
+
+%%
+% Set lasso penalty and tuning parameter values
+pentype = 'enet';
+penparam = 1;
+lambda = [5,10,30];
+
+%%
+% Estimate using Kruskal sparse logistic regression - lambda 1
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(1))]);
+[~,beta_rk1,~,glmstat_rk1] = kruskal_sparsereg(X,M,y,3,'binomial',...
+    lambda(1),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% Estimate using Kruskal sparse logistic regression - lambda 2
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(2))]);
+[~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,'binomial',...
+    lambda(2),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% Estimate using Kruskal sparse logistic regression - lambda 3
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(3))]);
+[~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,'binomial',...
+    lambda(3),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(2,2,1);
+imagesc(-b);
+colormap(gray);
+title('True Signal');
+axis equal;
+axis tight;
+
+subplot(2,2,2);
+imagesc(-double(beta_rk1));
+colormap(gray);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(1))];...
+    ['BIC=', num2str(glmstat_rk1{end}.BIC)]});
+axis equal;
+axis tight;
+
+subplot(2,2,3);
+imagesc(-double(beta_rk2));
+colormap(gray);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(2))];...
+    ['BIC=', num2str(glmstat_rk2{end}.BIC)]});
+axis equal;
+axis tight;
+
+subplot(2,2,4);
+imagesc(-double(beta_rk3));
+colormap(gray);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(3))];...
+    ['BIC=', num2str(glmstat_rk3{end}.BIC)]});
+axis equal;
+axis tight;
+
+%% Kruskal linear regression, 3D covariates
+
+clear;
+% reset random seed
+s = RandStream('mt19937ar','Seed',2);
+RandStream.setGlobalStream(s);
+
+%%
+% True 3D signal: 25-by-25-by-25 "two-cube"
+b = zeros(25,25,25);
+b(6:10,6:10,6:10) = 1;
+b(18:22,18:22,8:22) = 1;
+[p1, p2, p3] = size(b);
+% true coefficients for regular covariates
+p0 = 5;
+b0 = ones(p0,1);
+
+%%
+% Simulate covariates
+n = 500;    % sample size
+X = randn(n,p0);   % n-by-p regular design matrix
+M = tensor(randn(p1,p2,p3,n));  % p1-by-p2-by-p3 3D variates
+disp(size(M));
+
+%%
+% Simulate responses
+mu = X*b0 + double(ttt(M,tensor(b),1:3));
+sigma = 1;  % noise level
+y = mu + sigma*randn(n,1);
+
+%%
+% Estimate by Kruskal linear regression - rank 1
+tic;
+disp('rank 1');
+[~,beta_rk1,glmstats1] = kruskal_reg(X,M,y,1,'normal');
+toc;
+
+%%
+% Estimate by Kruskal linear regression - rank 2
+tic;
+disp('rank 2');
+% a rough estimate from reduced sized data
+M_reduce = array_resize(M, [10 10 10 size(M,4)]);
+[~,beta_rk2] = kruskal_reg(X,M_reduce,y,2,'normal');
+beta_rk2 = array_resize(beta_rk2, [p1 p2 p3]);
+% warm start from coarsened estimate
+[~,beta_rk2,glmstats2] = kruskal_reg(X,M,y,2,'normal','B0',beta_rk2);
+toc;
+
+%%
+% Estimate by Kruskal linear regression - rank 3
+tic;
+disp('rank 3');
+% a rough estimate from reduced sized data
+[~,beta_rk3] = kruskal_reg(X,M_reduce,y,3,'normal');
+beta_rk3 = array_resize(beta_rk3, [p1 p2 p3]);
+% warm start from coarsened estimate
+[~,beta_rk3,glmstats3] = kruskal_reg(X,M,y,3,'normal','B0',beta_rk3);
+toc;
+
+%%
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(2,2,1);
+view(3);
+isosurface(b,.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title('True Signal');
+axis equal;
+
+subplot(2,2,2);
+isosurface(double(beta_rk1),0.5); 
+view(3);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({['rank=1, ', ' BIC=', num2str(glmstats1{end}.BIC,5)]});
+daspect(daspect);
+
+subplot(2,2,3);
+view(3);
+isosurface(double(beta_rk2),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({['rank=2, ', ' BIC=', num2str(glmstats2{end}.BIC,5)]});
+axis equal;
+
+subplot(2,2,4);
+view(3);
+isosurface(double(beta_rk3),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({['rank=3, ', ' BIC=', num2str(glmstats3{end}.BIC,5)]});
+axis equal;
+
+%% Sparse Kruskal linear regression, 3D covariates
+
+%%
+% Set lasso penalty and tuning parameter values
+pentype = 'enet';
+penparam = 1;
+lambda = [10,100,2000];
+
+%%
+% Estimate using Kruskal sparse linear regression - lambda 1
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(1))]);
+[~,beta_rk1,~,glmstat_rk1] = kruskal_sparsereg(X,M,y,3,'normal',...
+    lambda(1),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% Estimate using Kruskal sparse linear regression - lambda 2
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(2))]);
+[~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,'normal',...
+    lambda(2),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% Estimate using Kruskal sparse linear regression - lambda 3
+% Warm start from rank 3 estimate
+tic;
+disp(['lambda=', num2str(lambda(3))]);
+[~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,'normal',...
+    lambda(3),pentype,penparam,'B0',beta_rk3);
+toc;
+
+%%
+% disp true and recovered signals
+figure; hold on;
+set(gca,'FontSize',20);
+
+subplot(2,2,1);
+view(3);
+isosurface(b,.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title('True Signal');
+axis equal;
+
+subplot(2,2,2);
+isosurface(double(beta_rk1),0.5); 
+view(3);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+daspect(daspect);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(1))];...
+    ['BIC=', num2str(glmstat_rk1{end}.BIC)]});
+axis equal;
+
+subplot(2,2,3);
+view(3);
+isosurface(double(beta_rk2),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(2))];...
+    ['BIC=', num2str(glmstat_rk2{end}.BIC)]});
+daspect(daspect);
+
+subplot(2,2,4);
+view(3);
+isosurface(double(beta_rk3),0.5);
+xlim([1 p1]);
+ylim([1 p2]);
+zlim([1 p3]);
+title({['TR(3),' pentype '(' num2str(penparam), '), \lambda=', ...
+    num2str(lambda(3))];...
+    ['BIC=', num2str(glmstat_rk3{end}.BIC)]});
+daspect(daspect);
+
+##### SOURCE END #####
+--></body></html>
