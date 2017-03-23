@@ -135,6 +135,8 @@
       <file>${PROJECT_ROOT}/tpca.m</file>
       <file>${PROJECT_ROOT}/tucker_reg.m</file>
       <file>${PROJECT_ROOT}/tucker_sparsereg.m</file>
+      <file>${PROJECT_ROOT}/uclabruin_icon.png</file>
+      <file>${PROJECT_ROOT}/uclabruin_logo.png</file>
     </fileset.rootfiles>
     <fileset.depfun.included />
     <fileset.depfun.excluded>
