@@ -125,7 +125,6 @@
       <file>${PROJECT_ROOT}/demo_matrixreg.m</file>
       <file>${PROJECT_ROOT}/demo_resize.m</file>
       <file>${PROJECT_ROOT}/demo_tucker.m</file>
-      <file>${PROJECT_ROOT}/demos.xml</file>
       <file>${PROJECT_ROOT}/html</file>
       <file>${PROJECT_ROOT}/info.xml</file>
       <file>${PROJECT_ROOT}/kruskal_reg.m</file>
