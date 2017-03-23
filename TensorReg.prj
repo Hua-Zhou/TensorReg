@@ -1,0 +1,349 @@
+<deployment-project plugin="plugin.toolbox" plugin-version="1.0">
+  <configuration file="/Users/huazhou/Documents/github.com/TensorReg/TensorReg.prj" location="/Users/huazhou/Documents/github.com/TensorReg" name="TensorReg" target="target.toolbox" target-name="Package Toolbox">
+    <param.appname>TensorReg</param.appname>
+    <param.authnamewatermark>Hua Zhou</param.authnamewatermark>
+    <param.email>huazhou@ucla.edu</param.email>
+    <param.company>UCLA</param.company>
+    <param.summary>TensorReg Toolbox for Matlab</param.summary>
+    <param.description>TensorReg toolbox is a collection of Matlab functions for tensor regressions.</param.description>
+    <param.screenshot />
+    <param.version>1.0</param.version>
+    <param.output>${PROJECT_ROOT}/TensorReg.mltbx</param.output>
+    <param.products.name />
+    <param.products.id />
+    <param.products.version />
+    <param.platforms />
+    <param.guid>216b95da-cc6c-497b-a184-f2ba119c099f</param.guid>
+    <param.exclude.filters>% List files contained in your toolbox folder that you would like to exclude
+% from packaging.  Excludes should be listed relative to the toolbox folder.
+% Some examples of how to specify excludes are provided below:
+%
+% A single file in the toolbox folder:
+% .svn
+%
+% A single file in a subfolder of the toolbox folder:
+% example/.svn
+%
+% All files in a subfolder of the toolbox folder:
+% example/*
+%
+% All files of a certain name in all subfolders of the toolbox folder:
+% **/.svn
+%
+% All files matching a pattern in all subfolders of the toolbox folder:
+% **/*.bak
+%
+
+.git/*
+.DS_Store
+.gitignore</param.exclude.filters>
+    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;examples&gt;
+   &lt;exampleCategory name="TensorReg"&gt;
+      &lt;example name="demo_kruskal" type="html"&gt;
+         &lt;file type="source"&gt;/html/demo_kruskal.html&lt;/file&gt;
+         &lt;file type="main"&gt;/demo_kruskal.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/html/demo_kruskal.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_02.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_03.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_04.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_05.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_06.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_kruskal_07.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="demo_matrixreg" type="html"&gt;
+         &lt;file type="source"&gt;/html/demo_matrixreg.html&lt;/file&gt;
+         &lt;file type="main"&gt;/demo_matrixreg.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/html/demo_matrixreg.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_02.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_03.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_04.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_05.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_06.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_07.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_matrixreg_08.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="demo_resize" type="html"&gt;
+         &lt;file type="source"&gt;/html/demo_resize.html&lt;/file&gt;
+         &lt;file type="main"&gt;/demo_resize.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/html/demo_resize.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_02.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_03.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_04.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_05.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_06.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_07.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_08.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_09.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_resize_10.png&lt;/file&gt;
+      &lt;/example&gt;
+      &lt;example name="demo_tucker" type="html"&gt;
+         &lt;file type="source"&gt;/html/demo_tucker.html&lt;/file&gt;
+         &lt;file type="main"&gt;/demo_tucker.m&lt;/file&gt;
+         &lt;file type="thumbnail"&gt;/html/demo_tucker.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_01.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_02.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_03.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_04.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_05.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_06.png&lt;/file&gt;
+         &lt;file type="image"&gt;/html/demo_tucker_07.png&lt;/file&gt;
+      &lt;/example&gt;
+   &lt;/exampleCategory&gt;
+&lt;/examples&gt;</param.examples>
+    <param.demosxml />
+    <param.apps />
+    <param.docs>${PROJECT_ROOT}/info.xml</param.docs>
+    <param.matlabpath.excludes />
+    <param.javaclasspath.excludes />
+    <unset>
+      <param.screenshot />
+      <param.version />
+      <param.output />
+      <param.products.name />
+      <param.products.id />
+      <param.products.version />
+      <param.platforms />
+      <param.demosxml />
+      <param.apps />
+      <param.matlabpath.excludes />
+      <param.javaclasspath.excludes />
+    </unset>
+    <fileset.rootdir>
+      <file>/Users/huazhou/Documents/github.com/TensorReg</file>
+    </fileset.rootdir>
+    <fileset.rootfiles>
+      <file>${PROJECT_ROOT}/.git</file>
+      <file>${PROJECT_ROOT}/Contents.m</file>
+      <file>${PROJECT_ROOT}/README.md</file>
+      <file>${PROJECT_ROOT}/array_resize.m</file>
+      <file>${PROJECT_ROOT}/cross.gif</file>
+      <file>${PROJECT_ROOT}/demo_kruskal.m</file>
+      <file>${PROJECT_ROOT}/demo_matrixreg.m</file>
+      <file>${PROJECT_ROOT}/demo_resize.m</file>
+      <file>${PROJECT_ROOT}/demo_tucker.m</file>
+      <file>${PROJECT_ROOT}/demos.xml</file>
+      <file>${PROJECT_ROOT}/html</file>
+      <file>${PROJECT_ROOT}/info.xml</file>
+      <file>${PROJECT_ROOT}/kruskal_reg.m</file>
+      <file>${PROJECT_ROOT}/kruskal_sparsereg.m</file>
+      <file>${PROJECT_ROOT}/matrix_sparsereg.m</file>
+      <file>${PROJECT_ROOT}/private</file>
+      <file>${PROJECT_ROOT}/tpca.m</file>
+      <file>${PROJECT_ROOT}/tucker_reg.m</file>
+      <file>${PROJECT_ROOT}/tucker_sparsereg.m</file>
+    </fileset.rootfiles>
+    <fileset.depfun.included />
+    <fileset.depfun.excluded>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/SparseReg/code/glm_sparsereg.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/SparseReg/code/lsq_maxlambda.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/SparseReg/code/lsq_sparsereg.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/SparseReg/code/private/glmsparse.mexmaci64</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/SparseReg/code/private/lsqmaxlambda.mexmaci64</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/SparseReg/code/private/lsqsparse.mexmaci64</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/arrange.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/datadisp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/disp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/display.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/double.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/end.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/extract.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/fixsigns.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/full.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/innerprod.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/isequal.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/issymmetric.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/ktensor.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/minus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/mtimes.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/mttkrp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/ncomponents.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/ndims.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/norm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/normalize.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/nvecs.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/permute.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/plus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/redistribute.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/score.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/size.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/subsasgn.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/subsref.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/symmetrize.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/times.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/tocell.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/ttm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/ttv.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/uminus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ktensor/uplus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/aatx.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/disp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/display.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/double.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/end.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/full.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/nnz.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/norm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/size.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/sptenmat.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/subsasgn.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/subsref.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/tsize.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/uminus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@sptenmat/uplus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/ctranspose.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/disp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/display.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/double.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/end.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/minus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/mtimes.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/norm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/plus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/size.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/subsasgn.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/subsref.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/tenmat.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/tsize.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/uminus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tenmat/uplus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/and.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/collapse.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/contract.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ctranspose.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/disp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/display.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/double.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/end.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/eq.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/find.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/full.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ge.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/gt.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/innerprod.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/isequal.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/issymmetric.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ldivide.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/le.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/lt.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/minus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/mldivide.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/mrdivide.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/mtimes.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/mttkrp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ndims.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ne.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/nnz.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/norm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/not.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/nvecs.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/or.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/permute.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/plus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/power.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/rdivide.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/reshape.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/scale.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/size.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/squeeze.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/subsasgn.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/subsref.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/symmetrize.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/tenfun.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/tensor.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/times.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/transpose.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ttm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ttsv.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ttt.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/ttv.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/uminus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/uplus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@tensor/xor.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/disp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/display.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/double.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/end.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/full.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/innerprod.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/isequal.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/mtimes.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/mttkrp.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/ndims.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/norm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/nvecs.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/permute.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/size.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/subsasgn.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/subsref.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/ttensor.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/ttm.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/ttv.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/uminus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/@ttensor/uplus.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/cp_als.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/khatrirao.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tenrand.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tenzeros.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tt_dimscheck.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tt_ind2sub.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tt_matrix2cellstr.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tt_size2str.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tt_sub2ind.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tt_subsubsref.m</file>
+      <file>/Users/huazhou/Documents/MATLAB/Add-Ons/Toolboxes/tensor_toolbox/tucker_als.m</file>
+    </fileset.depfun.excluded>
+    <fileset.package />
+    <build-deliverables>
+      <file location="/Users/huazhou/Documents/github.com/TensorReg" name="TensorReg.mltbx" optional="false">/Users/huazhou/Documents/github.com/TensorReg/TensorReg.mltbx</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>/Applications/MATLAB_R2017a.app</root>
+      <toolboxes>
+        <toolbox name="fixedpoint" />
+        <toolbox name="matlabcoder" />
+        <toolbox name="matlabhdlcoder" />
+        <toolbox name="embeddedcoder" />
+      </toolboxes>
+      <toolbox>
+        <fixedpoint>
+          <enabled>true</enabled>
+        </fixedpoint>
+      </toolbox>
+      <toolbox>
+        <matlabcoder>
+          <enabled>true</enabled>
+        </matlabcoder>
+      </toolbox>
+      <toolbox>
+        <matlabhdlcoder>
+          <enabled>true</enabled>
+        </matlabhdlcoder>
+      </toolbox>
+      <toolbox>
+        <embeddedcoder>
+          <enabled>true</enabled>
+        </embeddedcoder>
+      </toolbox>
+    </matlab>
+    <platform>
+      <unix>true</unix>
+      <mac>true</mac>
+      <windows>false</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.12.3</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>maci64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
