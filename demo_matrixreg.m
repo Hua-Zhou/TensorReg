@@ -18,14 +18,14 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % Simulate covariates
 n = 500;    % sample size
 X = randn(n,p0);   % n-by-p0 regular design matrix
 M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate responses
@@ -62,7 +62,7 @@ end
 toc;
 
 %%
-% Display true signal and snapshots along nuclear norm solution path
+% disp true signal and snapshots along nuclear norm solution path
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -86,7 +86,7 @@ for i=[gridpts round(gridpts/2) 1]
 end
 
 %%
-% Display AIC/BIC trace plot
+% disp AIC/BIC trace plot
 
 figure;
 set(gca,'FontSize',20);
@@ -134,7 +134,7 @@ end
 toc;
 
 %%
-% Display true signal and snapshots along lasso solution path
+% disp true signal and snapshots along lasso solution path
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -183,7 +183,7 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % True coefficients for regular (non-array) covariates
@@ -195,7 +195,7 @@ b0 = ones(p0,1);
 n = 750;    % sample size
 X = randn(n,p0);   % n-by-p regular design matrix
 M = tensor(randn(p1,p2,n));  % n p1-by-p2 matrix variates
-display(size(M));
+disp(size(M));
 
 % Simulate Poisson count responses from the systematic components
 mu = X*b0 + double(ttt(tensor(b), M, 1:2));
@@ -231,7 +231,7 @@ end
 toc
 
 %%
-% Display true signal and snapshots along nuclear norm solution path
+% disp true signal and snapshots along nuclear norm solution path
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -255,7 +255,7 @@ for i=[gridpts round(gridpts/2) 1]
 end
 
 %%
-% Display AIC/BIC trace plot
+% disp AIC/BIC trace plot
 figure;
 set(gca,'FontSize',20);
 semilogx(lambdas, AIC, '-+', lambdas, BIC, '-o');
@@ -264,81 +264,81 @@ ylabel('BIC');
 xlim([min(lambdas) max(lambdas)]);
 legend('AIC', 'BIC', 'Location', 'northwest');
 
-%% Compare to lasso penalized Poisson (log-linear) regression
-
-%%
-% Transform matrix variates to vector form
-TM = tenmat(tensor(M),3,[1 2]); 
-Xall = [double(TM) X];
-
-%%
-% Determine max lambda to start
-lambdastart = 0;
-for j=1:numel(b)
-    lambdastart = max(lambdastart,glm_maxlambda(Xall(:,j),y,'loglinear'));
-end
-maxlambda_lasso = lambdastart*.95;
-
-%%
-% Optimization at grid points
-gridpts = 10;
-B_lasso = cell(1,gridpts);
-BIC_lasso = zeros(1,gridpts);
-lambdas_lasso = zeros(1,gridpts);
-penidx = true(size(Xall,2),1); 
-penidx(numel(b)+1:end) = false; % do not penalize regular covariates
-
-tic;
-for i=1:gridpts
-    if (i==1)
-        x0 = zeros(size(Xall,2),1);
-    else
-        x0 = beta;
-    end
-    lambda = maxlambda_lasso*gs^(i-1);
-    lambdas_lasso(i) = lambda;
-    [beta] = glm_sparsereg(Xall,y,lambda,'loglinear', ...
-        'x0',x0,'penidx',penidx);
-    B_lasso{i} = beta(1:numel(b));
-    eta = Xall*beta;
-    BIC_lasso(i) = - sum(y.*log(eta)-gammaln(y+1)-eta) ...
-        + log(n)*nnz(abs(beta)>1e-8);
-end
-toc;
-
-%%
-% Display true sinal and snapshots along lasso solution path
-figure; hold on;
-set(gca,'FontSize',20);
-
-subplot(2,2,1);
-imagesc(-b);
-colormap(gray);
-title('True Signal');
-axis equal;
-axis tight;
-
-ploti = 1;
-for i=[gridpts round(gridpts/2) 1]
-    ploti = ploti + 1;
-    subplot(2,2,ploti);
-    imagesc(-reshape(B_lasso{i},p1,p2));
-    colormap(gray);
-    title({['lasso' ', \lambda=', ...
-        num2str(lambdas(i))]; ['BIC=', num2str(BIC(i))]});
-    axis equal;
-    axis tight;
-end
-
-%%
-% Lasso BIC path
-figure;
-set(gca,'FontSize',20);
-semilogx(lambdas_lasso,BIC_lasso,'-o');
-title('lasso BIC');
-xlabel('\lambda');
-ylabel('BIC');
-xlim([min(lambdas_lasso),max(lambdas_lasso)]);
+% %% Compare to lasso penalized Poisson (log-linear) regression
+% 
+% %%
+% % Transform matrix variates to vector form
+% TM = tenmat(tensor(M),3,[1 2]); 
+% Xall = [double(TM) X];
+% 
+% %%
+% % Determine max lambda to start
+% lambdastart = 0;
+% for j=1:numel(b)
+%     lambdastart = max(lambdastart,glm_maxlambda(Xall(:,j),y,'loglinear'));
+% end
+% maxlambda_lasso = lambdastart*.95;
+% 
+% %%
+% % Optimization at grid points
+% gridpts = 10;
+% B_lasso = cell(1,gridpts);
+% BIC_lasso = zeros(1,gridpts);
+% lambdas_lasso = zeros(1,gridpts);
+% penidx = true(size(Xall,2),1); 
+% penidx(numel(b)+1:end) = false; % do not penalize regular covariates
+% 
+% tic;
+% for i=1:gridpts
+%     if (i==1)
+%         x0 = zeros(size(Xall,2),1);
+%     else
+%         x0 = beta;
+%     end
+%     lambda = maxlambda_lasso*gs^(i-1);
+%     lambdas_lasso(i) = lambda;
+%     [beta] = glm_sparsereg(Xall,y,lambda,'loglinear', ...
+%         'x0',x0,'penidx',penidx);
+%     B_lasso{i} = beta(1:numel(b));
+%     eta = Xall*beta;
+%     BIC_lasso(i) = - sum(y.*log(eta)-gammaln(y+1)-eta) ...
+%         + log(n)*nnz(abs(beta)>1e-8);
+% end
+% toc;
+% 
+% %%
+% % disp true sinal and snapshots along lasso solution path
+% figure; hold on;
+% set(gca,'FontSize',20);
+% 
+% subplot(2,2,1);
+% imagesc(-b);
+% colormap(gray);
+% title('True Signal');
+% axis equal;
+% axis tight;
+% 
+% ploti = 1;
+% for i=[gridpts round(gridpts/2) 1]
+%     ploti = ploti + 1;
+%     subplot(2,2,ploti);
+%     imagesc(-reshape(B_lasso{i},p1,p2));
+%     colormap(gray);
+%     title({['lasso' ', \lambda=', ...
+%         num2str(lambdas(i))]; ['BIC=', num2str(BIC(i))]});
+%     axis equal;
+%     axis tight;
+% end
+% 
+% %%
+% % Lasso BIC path
+% figure;
+% set(gca,'FontSize',20);
+% semilogx(lambdas_lasso,BIC_lasso,'-o');
+% title('lasso BIC');
+% xlabel('\lambda');
+% ylabel('BIC');
+% xlim([min(lambdas_lasso),max(lambdas_lasso)]);
 
 %% Regularized matrix logistic regression
 
@@ -355,7 +355,7 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % True coefficients for regular (non-array) covariates
@@ -367,7 +367,7 @@ b0 = ones(p0,1);
 n = 1000;    % sample size
 X = randn(n,p0);   % n-by-p regular design matrix
 M = tensor(randn(p1,p2,n));  % n p1-by-p2 matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate binary responses from the systematic components
@@ -404,7 +404,7 @@ end
 toc
 
 %%
-% Display true signal and and snapshots along nuclear norm solution path
+% disp true signal and and snapshots along nuclear norm solution path
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -428,7 +428,7 @@ for i=[gridpts round(gridpts/2) 1]
 end
 
 %%
-% Display AIC/BIC trace plot
+% disp AIC/BIC trace plot
 figure;
 set(gca,'FontSize',20);
 semilogx(lambdas, AIC, '-+', lambdas, BIC, '-o');
@@ -438,79 +438,79 @@ xlim([min(lambdas) max(lambdas)]);
 title('Nuclear norm AIC/BIC');
 legend('AIC', 'BIC', 'Location', 'northwest');
 
-%% Compare to lasso penalized logistic regression
-
-%%
-% Transform matrix variates to vector form
-TM = tenmat(tensor(M),3,[1 2]); 
-Xall = [double(TM) X];
-
-%%
-% Determine max lambda to start
-lambdastart = 0;            % find the maximum tuning parameter to start
-for j=1:numel(b)
-    lambdastart = max(lambdastart,glm_maxlambda(Xall(:,j),y,'logistic'));
-end
-maxlambda_lasso = lambdastart;
-
-%% 
-% Optimization at grid points
-gridpts = 10;
-B_lasso = cell(1,gridpts);
-BIC_lasso = zeros(1,gridpts);
-lambdas_lasso = zeros(1,gridpts);
-penidx = true(size(Xall,2),1); 
-penidx(numel(b)+1:end) = false; % do not penalize regular covariates
-
-tic;
-for i=1:gridpts
-    if (i==1)
-        x0 = zeros(size(Xall,2),1);
-    else
-        x0 = beta;
-    end
-    lambda = maxlambda_lasso*gs^(i-1);
-    lambdas_lasso(i) = lambda;
-    [beta] = glm_sparsereg(Xall,y,lambda,'logistic','x0',x0, ...
-        'penidx',penidx);
-    B_lasso{i} = beta(1:numel(b));
-    eta = Xall*beta;
-    BIC_lasso(i) = - sum(y.*eta-log(1+exp(eta))) ...
-        + log(n)*nnz(abs(beta)>1e-8);
-end
-toc;
-
-%%
-% Display true signal and snapshots along lasso solution path
-figure; hold on;
-set(gca,'FontSize',20);
-
-subplot(2,2,1);
-imagesc(-b);
-colormap(gray);
-title('True Signal');
-axis equal;
-axis tight;
-
-ploti = 1;
-for i=[gridpts round(gridpts/2) 1]
-    ploti = ploti + 1;
-    subplot(2,2,ploti);
-    imagesc(-reshape(B_lasso{i},p1,p2));
-    colormap(gray);
-    title({['lasso' ', \lambda=', ...
-        num2str(lambdas(i))]; ['BIC=', num2str(BIC(i))]});
-    axis equal;
-    axis tight;
-end
-
-%%
-% Lasso BIC path
-figure;
-set(gca,'FontSize',20);
-semilogx(lambdas_lasso,BIC_lasso,'-o');
-title('lasso BIC');
-xlabel('\lambda');
-ylabel('BIC');
-xlim([min(lambdas_lasso),max(lambdas_lasso)]);
+% %% Compare to lasso penalized logistic regression
+% 
+% %%
+% % Transform matrix variates to vector form
+% TM = tenmat(tensor(M),3,[1 2]); 
+% Xall = [double(TM) X];
+% 
+% %%
+% % Determine max lambda to start
+% lambdastart = 0;            % find the maximum tuning parameter to start
+% for j=1:numel(b)
+%     lambdastart = max(lambdastart,glm_maxlambda(Xall(:,j),y,'logistic'));
+% end
+% maxlambda_lasso = lambdastart;
+% 
+% %% 
+% % Optimization at grid points
+% gridpts = 10;
+% B_lasso = cell(1,gridpts);
+% BIC_lasso = zeros(1,gridpts);
+% lambdas_lasso = zeros(1,gridpts);
+% penidx = true(size(Xall,2),1); 
+% penidx(numel(b)+1:end) = false; % do not penalize regular covariates
+% 
+% tic;
+% for i=1:gridpts
+%     if (i==1)
+%         x0 = zeros(size(Xall,2),1);
+%     else
+%         x0 = beta;
+%     end
+%     lambda = maxlambda_lasso*gs^(i-1);
+%     lambdas_lasso(i) = lambda;
+%     [beta] = glm_sparsereg(Xall,y,lambda,'logistic','x0',x0, ...
+%         'penidx',penidx);
+%     B_lasso{i} = beta(1:numel(b));
+%     eta = Xall*beta;
+%     BIC_lasso(i) = - sum(y.*eta-log(1+exp(eta))) ...
+%         + log(n)*nnz(abs(beta)>1e-8);
+% end
+% toc;
+% 
+% %%
+% % disp true signal and snapshots along lasso solution path
+% figure; hold on;
+% set(gca,'FontSize',20);
+% 
+% subplot(2,2,1);
+% imagesc(-b);
+% colormap(gray);
+% title('True Signal');
+% axis equal;
+% axis tight;
+% 
+% ploti = 1;
+% for i=[gridpts round(gridpts/2) 1]
+%     ploti = ploti + 1;
+%     subplot(2,2,ploti);
+%     imagesc(-reshape(B_lasso{i},p1,p2));
+%     colormap(gray);
+%     title({['lasso' ', \lambda=', ...
+%         num2str(lambdas(i))]; ['BIC=', num2str(BIC(i))]});
+%     axis equal;
+%     axis tight;
+% end
+% 
+% %%
+% % Lasso BIC path
+% figure;
+% set(gca,'FontSize',20);
+% semilogx(lambdas_lasso,BIC_lasso,'-o');
+% title('lasso BIC');
+% xlabel('\lambda');
+% ylabel('BIC');
+% xlim([min(lambdas_lasso),max(lambdas_lasso)]);
 

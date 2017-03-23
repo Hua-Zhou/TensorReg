@@ -18,14 +18,14 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % Simulate covariates
 n = 500;    % sample size
 X = randn(n,p0);   % n-by-p0 regular design matrix
 M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate responses
@@ -69,7 +69,7 @@ disp('rank (3 3)');
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -121,22 +121,22 @@ axis tight;
 tic;
 M_small = array_resize(M, [16 16 size(M,3)]);
 [~,beta_small] = tucker_reg(X,M_small,y,3,'normal');
-display(size(beta_small));
+disp(size(beta_small));
 
 %%
 % Use coarsened estimate as initial point
 [~,beta_ws,glmstats_ws,dev_ws] = tucker_reg(X,M,y,3,'normal', ...
     'B0',array_resize(beta_small,[p1 p2]));
 toc;
-display(size(beta_ws));
+disp(size(beta_ws));
 
 %%
 % Compare estimate using warm start and previous estimate (5 random
 % initial points)
-display([dev3 dev_ws]);
-display([glmstats3{end}.BIC glmstats_ws{end}.BIC]);
+disp([dev3 dev_ws]);
+disp([glmstats3{end}.BIC glmstats_ws{end}.BIC]);
 
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -201,7 +201,7 @@ disp(['lambda=', num2str(lambda(3))]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -259,14 +259,14 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % Simulate covariates
 n = 1000;    % sample size
 X = randn(n,p0);   % n-by-p regular design matrix
 M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate binary responses from the systematic components
@@ -322,7 +322,7 @@ beta_rk3 = array_resize(beta_rk3, [64 64]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -404,7 +404,7 @@ disp(['lambda=', num2str(lambda(3))]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -460,7 +460,7 @@ b = zeros(25,25,25);
 b(6:10,6:10,6:10) = 1;
 b(18:22,18:22,8:22) = 1;
 [p1, p2, p3] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % Simulate covariates
@@ -524,7 +524,7 @@ beta_rk3 = array_resize(beta_rk3, [p1 p2 p3]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -619,7 +619,7 @@ disp(['lambda=', num2str(lambda(3))]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 

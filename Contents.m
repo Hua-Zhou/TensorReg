@@ -12,3 +12,4 @@
 %   tpca              - Tensor principle component analysis (tPCA)
 %   tucker_reg        - Fit the rank-r Tucker tensor regression
 %   tucker_sparsereg  - Fit the rank-r GLM sparse Tucker tensor regression
+

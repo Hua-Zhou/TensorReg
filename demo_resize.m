@@ -3,38 +3,38 @@
 clear;
 % load an RBG image: 135-by-198-by-3 array
 I = imread('onion.png');
-display(size(I));
+disp(size(I));
 figure; imagesc(I);
 
 %%
 % Set target dimension
 targetdim = round([100 150 3]);
-display(targetdim);
+disp(targetdim);
 
 %%
 % Downsize using interpolation
 I_interp = array_resize(I, targetdim); %<-- default method is interpolate
-display(size(I_interp));
+disp(size(I_interp));
 figure; imagesc(I_interp);
 
 %%
 % Downsize using discrete cosine transform (DCT)
 I_dct = array_resize(I, targetdim, 'method', 'dct');
-display(size(I_dct));
+disp(size(I_dct));
 figure; imagesc(I_dct);
 
 %%
 % Downsize to PCA scores using HOSVD. PC scores loose original
 % interpretation
 I_hosvd = array_resize(I, targetdim, 'method', 'hosvd');
-display(size(I_hosvd));
+disp(size(I_hosvd));
 figure; imagesc(I_hosvd);
 
 %%
 % Downsize to PCA scores using marginal SVD. PC scores loose original
 % interpretation
 I_2dsvd = array_resize(I, targetdim, 'method', '2dsvd');
-display(size(I_2dsvd));
+disp(size(I_2dsvd));
 figure; imagesc(I_2dsvd);
 
 %% Upsize an array using different methods
@@ -42,18 +42,18 @@ figure; imagesc(I_2dsvd);
 %%
 % Set target dimension
 targetdim = round([200 300 3]);
-display(targetdim);
+disp(targetdim);
 
 %%
 % Upsize using interpolation
 I_interp = array_resize(I, targetdim); %<-- default method is interpolate
-display(size(I_interp));
+disp(size(I_interp));
 figure; imagesc(I_interp);
 
 %%
 % Upsize using discrete cosine transform (DCT)
 I_dct = array_resize(I, targetdim, 'method', 'dct');
-display(size(I_dct));
+disp(size(I_dct));
 figure; imagesc(I_dct);
 
 %% Downsizing-analysis-upsizing
@@ -76,7 +76,7 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 figure; imagesc(-b);
 colormap(gray);
@@ -89,7 +89,7 @@ axis tight;
 n = 500;    % sample size
 X = randn(n,p0);   % n-by-p0 regular design matrix
 M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate responses
@@ -102,7 +102,7 @@ y = mu + sigma*randn(n,1);
 tic;
 [~,beta1,glmstats1] = kruskal_reg(X,M,y,2,'normal');
 toc;
-display(size(beta1));
+disp(size(beta1));
 
 figure;
 imagesc(-double(beta1));
@@ -114,19 +114,19 @@ axis tight;
 %%
 % Resize 2D covariates to 32-by-32
 M_reduce = array_resize(double(M), [32 32 n], 'method', 'dct');
-display(size(M_reduce));
+disp(size(M_reduce));
 
 %%
 % Rank 2 Kruskal regression with 32-by-32 covariates
 tic;
 [~,beta2,glmstats2] = kruskal_reg(X,M_reduce,y,2,'normal');
 toc;
-display(size(beta2));
+disp(size(beta2));
 
 %%
-% Resize estimate and display in original size
+% Resize estimate and disp in original size
 beta2 = array_resize(double(beta2), [64 64], 'method', 'dct');
-display(size(beta2));
+disp(size(beta2));
 
 figure;
 imagesc(-double(beta2));

@@ -13,7 +13,7 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % True coefficients for regular (non-array) covariates
@@ -25,7 +25,7 @@ b0 = ones(p0,1);
 n = 500;    % sample size
 X = randn(n,p0);   % n-by-p0 regular design matrix
 M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate responses
@@ -39,7 +39,7 @@ tic;
 disp('rank 1');
 [~,beta_rk1,glmstats1] = kruskal_reg(X,M,y,1,'normal');
 toc;
-display(glmstats1{end});
+disp(glmstats1{end});
 
 %%
 % Estimate using Kruskal linear regression - rank 2
@@ -47,7 +47,7 @@ tic;
 disp('rank 2');
 [~,beta_rk2,glmstats2] = kruskal_reg(X,M,y,2,'normal');
 toc;
-display(glmstats2{end});
+disp(glmstats2{end});
 
 %%
 % Estimate using Kruskal linear regression - rank 3
@@ -55,10 +55,10 @@ tic;
 disp('rank 3');
 [~,beta_rk3,glmstats3,dev3] = kruskal_reg(X,M,y,3,'normal');
 toc;
-display(glmstats3{end});
+disp(glmstats3{end});
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -96,22 +96,22 @@ axis tight;
 tic;
 M_small = array_resize(M, [16 16 size(M,3)]);
 [~,beta_small] = kruskal_reg(X,M_small,y,3,'normal');
-display(size(beta_small));
+disp(size(beta_small));
 
 %%
 % Use reduced-sized estimate as initial point
 [~,beta_ws,glmstats_ws,dev_ws] = kruskal_reg(X,M,y,3,'normal', ...
     'B0',array_resize(beta_small,[p1 p2]));
 toc;
-display(size(beta_ws));
+disp(size(beta_ws));
 
 %%
 % Compare estimate using warm start and previous estimate (5 random
 % initial points); note the smaller deviance and BIC from warm start
-display([dev3 dev_ws]);
-display([glmstats3{end}.BIC glmstats_ws{end}.BIC]);
+disp([dev3 dev_ws]);
+disp([glmstats3{end}.BIC glmstats_ws{end}.BIC]);
 
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -175,7 +175,7 @@ disp(['lambda=', num2str(lambda(3))]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -233,14 +233,14 @@ b = zeros(2*size(shape));
 b((size(b,1)/4):(size(b,1)/4)+size(shape,1)-1, ...
     (size(b,2)/4):(size(b,2)/4)+size(shape,2)-1) = shape;
 [p1,p2] = size(b);
-display(size(b));
+disp(size(b));
 
 %%
 % Simulate covariates
 n = 1000;    % sample size
 X = randn(n,p0);   % n-by-p regular design matrix
 M = tensor(randn(p1,p2,n));  % p1-by-p2-by-n matrix variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate binary responses from the systematic components
@@ -280,7 +280,7 @@ beta_rk3 = array_resize(beta_rk3, [64 64]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -348,7 +348,7 @@ disp(['lambda=', num2str(lambda(3))]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -408,7 +408,7 @@ b0 = ones(p0,1);
 n = 500;    % sample size
 X = randn(n,p0);   % n-by-p regular design matrix
 M = tensor(randn(p1,p2,p3,n));  % p1-by-p2-by-p3 3D variates
-display(size(M));
+disp(size(M));
 
 %%
 % Simulate responses
@@ -447,7 +447,7 @@ beta_rk3 = array_resize(beta_rk3, [p1 p2 p3]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
@@ -523,7 +523,7 @@ disp(['lambda=', num2str(lambda(3))]);
 toc;
 
 %%
-% Display true and recovered signals
+% disp true and recovered signals
 figure; hold on;
 set(gca,'FontSize',20);
 
