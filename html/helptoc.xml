@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding="utf-8"?>
+<toc version="2.0">
+    <!-- First tocitem specifies top level in Help browser Contents pane -->
+    <!-- This can be a roadmap page, as shown below, or a content page -->
+
+    <tocitem target="./tensorreg_toolbox_product_page.html">TensorReg Toolbox
+        
+        <tocitem image="$toolbox/matlab/icons/pageicon.gif"
+                 target="./demo_resize.html">Resize arrays
+             </tocitem>
+        <tocitem image="$toolbox/matlab/icons/pageicon.gif"
+                 target="./demo_kruskal.html">Kruskal (CP) regression
+             </tocitem>                 
+        <tocitem image="$toolbox/matlab/icons/pageicon.gif"
+                 target="./demo_tucker.html">Tucker regression
+             </tocitem>
+        <tocitem image="$toolbox/matlab/icons/pageicon.gif"
+                 target="./demo_matrixreg.html">Regularized matrix regression
+             </tocitem>
+                 
+        <!-- Optional link or links to your or other Web sites -->
+        <tocitem target="http://hua-zhou.github.io/TensorReg/" 
+                 image="$toolbox/matlab/icons/webicon.gif">TensorReg Toolbox Site
+            </tocitem>
+        
+    </tocitem>
+</toc>
