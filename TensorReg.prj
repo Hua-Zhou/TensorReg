@@ -7,7 +7,7 @@
     <param.summary>TensorReg Toolbox for Matlab</param.summary>
     <param.description>TensorReg toolbox is a collection of Matlab functions for tensor regressions.</param.description>
     <param.screenshot />
-    <param.version>1.0</param.version>
+    <param.version>1.0.1</param.version>
     <param.output>${PROJECT_ROOT}/TensorReg.mltbx</param.output>
     <param.products.name />
     <param.products.id />
@@ -101,7 +101,6 @@
     <param.javaclasspath.excludes />
     <unset>
       <param.screenshot />
-      <param.version />
       <param.output />
       <param.products.name />
       <param.products.id />
@@ -125,6 +124,7 @@
       <file>${PROJECT_ROOT}/demo_matrixreg.m</file>
       <file>${PROJECT_ROOT}/demo_resize.m</file>
       <file>${PROJECT_ROOT}/demo_tucker.m</file>
+      <file>${PROJECT_ROOT}/demos.xml</file>
       <file>${PROJECT_ROOT}/html</file>
       <file>${PROJECT_ROOT}/info.xml</file>
       <file>${PROJECT_ROOT}/kruskal_reg.m</file>
@@ -340,7 +340,7 @@
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.12.3</osver>
+      <osver>10.12.4</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>

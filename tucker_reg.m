@@ -145,6 +145,7 @@ if ~isempty(B0)
     if isa(B0,'tensor') || isa(B0,'ktensor') || ...
             (isa(B0, 'ttensor') && any(size(B0.core)~=r))
         B0 = tucker_als(B0, r, 'printitn', 0);
+        B0.U = reshape(B0.U, 1, d);
     end
 end
 

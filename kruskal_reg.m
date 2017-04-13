@@ -143,6 +143,7 @@ if ~isempty(B0)
     if isa(B0,'tensor') || isa(B0,'ttensor') || ...
             (isa(B0, 'ktensor') && size(B0.U{1},2)~=r)
         B0 = cp_als(B0, r, 'printitn', 0);
+        B0.U = reshape(B0.U, 1, d);
     end
 end
 
