@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>demo_matrixreg</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-03-22"><meta name="DC.source" content="demo_matrixreg.m"><style type="text/css">
+      --><title>demo_matrixreg</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-04-13"><meta name="DC.source" content="demo_matrixreg.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -112,7 +112,7 @@ tic;
     BIC(i) = stats.BIC;
 <span class="keyword">end</span>
 toc;
-</pre><pre class="codeoutput">Elapsed time is 1.052653 seconds.
+</pre><pre class="codeoutput">Elapsed time is 0.935886 seconds.
 </pre><p>disp true signal and snapshots along nuclear norm solution path</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -167,7 +167,7 @@ tic;
     BIC_lasso(i) = .5*norm(y-Xall*beta)^2+log(n)*nnz(abs(beta)&gt;1e-8);
 <span class="keyword">end</span>
 toc;
-</pre><pre class="codeoutput">Elapsed time is 4.752019 seconds.
+</pre><pre class="codeoutput">Elapsed time is 4.505069 seconds.
 </pre><p>disp true signal and snapshots along lasso solution path</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -244,7 +244,7 @@ tic;
     BIC(i) = stats.BIC;
 <span class="keyword">end</span>
 toc
-</pre><pre class="codeoutput">Elapsed time is 2.579783 seconds.
+</pre><pre class="codeoutput">Elapsed time is 2.569610 seconds.
 </pre><p>disp true signal and snapshots along nuclear norm solution path</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -395,7 +395,7 @@ tic;
     BIC(i) = stats.BIC;
 <span class="keyword">end</span>
 toc
-</pre><pre class="codeoutput">Elapsed time is 1.924754 seconds.
+</pre><pre class="codeoutput">Elapsed time is 1.822904 seconds.
 </pre><p>disp true signal and and snapshots along nuclear norm solution path</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 

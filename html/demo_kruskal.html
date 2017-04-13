@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>demo_kruskal</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-03-22"><meta name="DC.source" content="demo_kruskal.m"><style type="text/css">
+      --><title>demo_kruskal</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-04-13"><meta name="DC.source" content="demo_kruskal.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -96,7 +96,7 @@ disp(<span class="string">'rank 1'</span>);
 toc;
 disp(glmstats1{end});
 </pre><pre class="codeoutput">rank 1
-Elapsed time is 0.771229 seconds.
+Elapsed time is 0.921648 seconds.
          beta: [6&times;1 double]
           dfe: 494
          sfit: 5.9801
@@ -120,7 +120,7 @@ disp(<span class="string">'rank 2'</span>);
 toc;
 disp(glmstats2{end});
 </pre><pre class="codeoutput">rank 2
-Elapsed time is 2.091484 seconds.
+Elapsed time is 2.010375 seconds.
          beta: [6&times;1 double]
           dfe: 494
          sfit: 0.6878
@@ -144,7 +144,7 @@ disp(<span class="string">'rank 3'</span>);
 toc;
 disp(glmstats3{end});
 </pre><pre class="codeoutput">rank 3
-Elapsed time is 10.206717 seconds.
+Elapsed time is 10.103692 seconds.
          beta: [6&times;1 double]
           dfe: 494
          sfit: 0.3709
@@ -203,7 +203,7 @@ disp(size(beta_small));
     <span class="string">'B0'</span>,array_resize(beta_small,[p1 p2]));
 toc;
 disp(size(beta_ws));
-</pre><pre class="codeoutput">Elapsed time is 2.820957 seconds.
+</pre><pre class="codeoutput">Elapsed time is 2.727487 seconds.
     64    64
 
 </pre><p>Compare estimate using warm start and previous estimate (5 random initial points); note the smaller deviance and BIC from warm start</p><pre class="codeinput">disp([dev3 dev_ws]);
@@ -253,21 +253,21 @@ disp([<span class="string">'lambda='</span>, num2str(lambda(1))]);
     lambda(1),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=1
-Elapsed time is 0.193133 seconds.
+Elapsed time is 0.210845 seconds.
 </pre><p>Estimate using Kruskal sparse linear regression - lambda 2 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
 disp([<span class="string">'lambda='</span>, num2str(lambda(2))]);
 [~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
     lambda(2),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=100
-Elapsed time is 0.341665 seconds.
+Elapsed time is 0.288776 seconds.
 </pre><p>Estimate using Kruskal sparse linear regression - lambda 3 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
 disp([<span class="string">'lambda='</span>, num2str(lambda(3))]);
 [~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
     lambda(3),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=1000
-Elapsed time is 0.136714 seconds.
+Elapsed time is 0.120612 seconds.
 </pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -332,7 +332,7 @@ disp(<span class="string">'rank 1'</span>);
 [beta0_rk1,beta_rk1,glmstats1,dev1] = kruskal_reg(X,M,y,1,<span class="string">'binomial'</span>);
 toc;
 </pre><pre class="codeoutput">rank 1
-Elapsed time is 1.441793 seconds.
+Elapsed time is 1.535537 seconds.
 </pre><p>Estimate using Kruskal logistic regression - rank 2</p><pre class="codeinput">tic;
 disp(<span class="string">'rank 2'</span>);
 <span class="comment">% a rough estimate from reduced sized data</span>
@@ -344,7 +344,7 @@ beta_rk2 = array_resize(beta_rk2, [64 64]);
     <span class="string">'B0'</span>, beta_rk2);
 toc;
 </pre><pre class="codeoutput">rank 2
-Elapsed time is 3.345091 seconds.
+Elapsed time is 3.304859 seconds.
 </pre><p>Estimate using Kruskal logistic regression - rank 3</p><pre class="codeinput">tic;
 disp(<span class="string">'rank 3'</span>);
 <span class="comment">% a rough estimate from reduced sized data</span>
@@ -355,7 +355,7 @@ beta_rk3 = array_resize(beta_rk3, [64 64]);
         <span class="string">'B0'</span>, beta_rk3);
 toc;
 </pre><pre class="codeoutput">rank 3
-Elapsed time is 7.077017 seconds.
+Elapsed time is 7.006506 seconds.
 </pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -395,21 +395,21 @@ disp([<span class="string">'lambda='</span>, num2str(lambda(1))]);
     lambda(1),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=5
-Elapsed time is 0.607638 seconds.
+Elapsed time is 0.627160 seconds.
 </pre><p>Estimate using Kruskal sparse logistic regression - lambda 2 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
 disp([<span class="string">'lambda='</span>, num2str(lambda(2))]);
 [~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,<span class="string">'binomial'</span>,<span class="keyword">...</span>
     lambda(2),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=10
-Elapsed time is 0.517535 seconds.
+Elapsed time is 0.480458 seconds.
 </pre><p>Estimate using Kruskal sparse logistic regression - lambda 3 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
 disp([<span class="string">'lambda='</span>, num2str(lambda(3))]);
 [~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,<span class="string">'binomial'</span>,<span class="keyword">...</span>
     lambda(3),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=30
-Elapsed time is 0.340170 seconds.
+Elapsed time is 0.311066 seconds.
 </pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -471,7 +471,7 @@ disp(<span class="string">'rank 1'</span>);
 [~,beta_rk1,glmstats1] = kruskal_reg(X,M,y,1,<span class="string">'normal'</span>);
 toc;
 </pre><pre class="codeoutput">rank 1
-Elapsed time is 2.777152 seconds.
+Elapsed time is 2.916543 seconds.
 </pre><p>Estimate by Kruskal linear regression - rank 2</p><pre class="codeinput">tic;
 disp(<span class="string">'rank 2'</span>);
 <span class="comment">% a rough estimate from reduced sized data</span>
@@ -482,7 +482,7 @@ beta_rk2 = array_resize(beta_rk2, [p1 p2 p3]);
 [~,beta_rk2,glmstats2] = kruskal_reg(X,M,y,2,<span class="string">'normal'</span>,<span class="string">'B0'</span>,beta_rk2);
 toc;
 </pre><pre class="codeoutput">rank 2
-Elapsed time is 2.203241 seconds.
+Elapsed time is 2.382836 seconds.
 </pre><p>Estimate by Kruskal linear regression - rank 3</p><pre class="codeinput">tic;
 disp(<span class="string">'rank 3'</span>);
 <span class="comment">% a rough estimate from reduced sized data</span>
@@ -492,7 +492,7 @@ beta_rk3 = array_resize(beta_rk3, [p1 p2 p3]);
 [~,beta_rk3,glmstats3] = kruskal_reg(X,M,y,3,<span class="string">'normal'</span>,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">rank 3
-Elapsed time is 3.378684 seconds.
+Elapsed time is 3.368647 seconds.
 </pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
@@ -540,21 +540,21 @@ disp([<span class="string">'lambda='</span>, num2str(lambda(1))]);
     lambda(1),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=10
-Elapsed time is 0.529559 seconds.
+Elapsed time is 0.546141 seconds.
 </pre><p>Estimate using Kruskal sparse linear regression - lambda 2 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
 disp([<span class="string">'lambda='</span>, num2str(lambda(2))]);
 [~,beta_rk2,~,glmstat_rk2] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
     lambda(2),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=100
-Elapsed time is 0.365113 seconds.
+Elapsed time is 0.389247 seconds.
 </pre><p>Estimate using Kruskal sparse linear regression - lambda 3 Warm start from rank 3 estimate</p><pre class="codeinput">tic;
 disp([<span class="string">'lambda='</span>, num2str(lambda(3))]);
 [~,beta_rk3,~,glmstat_rk3] = kruskal_sparsereg(X,M,y,3,<span class="string">'normal'</span>,<span class="keyword">...</span>
     lambda(3),pentype,penparam,<span class="string">'B0'</span>,beta_rk3);
 toc;
 </pre><pre class="codeoutput">lambda=2000
-Elapsed time is 0.362285 seconds.
+Elapsed time is 0.368513 seconds.
 </pre><p>disp true and recovered signals</p><pre class="codeinput">figure; hold <span class="string">on</span>;
 set(gca,<span class="string">'FontSize'</span>,20);
 
