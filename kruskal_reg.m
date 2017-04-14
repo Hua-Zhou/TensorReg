@@ -142,9 +142,10 @@ if ~isempty(B0)
     % perform CP decomposition if it's not a ktensor of correct rank
     if isa(B0,'tensor') || isa(B0,'ttensor') || ...
             (isa(B0, 'ktensor') && size(B0.U{1},2)~=r)
-        B0 = cp_als(B0, r, 'printitn', 0);
-        B0.U = reshape(B0.U, 1, d);
+        B0 = cp_als(B0, r, 'printitn', 0);        
     end
+    % make sure B0.U is a 1-by-d cell array
+    B0.U = reshape(B0.U, 1, d);
 end
 
 % turn off warnings from glmfit_priv

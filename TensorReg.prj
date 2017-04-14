@@ -7,7 +7,7 @@
     <param.summary>TensorReg Toolbox for Matlab</param.summary>
     <param.description>TensorReg toolbox is a collection of Matlab functions for tensor regressions.</param.description>
     <param.screenshot />
-    <param.version>1.0.1</param.version>
+    <param.version>1.0.2</param.version>
     <param.output>${PROJECT_ROOT}/TensorReg.mltbx</param.output>
     <param.products.name />
     <param.products.id />
