@@ -46,7 +46,7 @@ mv Hua-Zhou-TensorReg-xxxxxxx TensorReg
 If you use this toolbox, please cite the software itself along with at least one publication or preprint.
 
 * Software reference:  
-H Zhou. Matlab TensorReg Toolbox Version 1.0.0, Available online, March 2017.  
+H Zhou. Matlab TensorReg Toolbox Version 1.0, Available online, March 2017.  
 * Default article to cite for Kruskal (CP) tensor regression:    
 H Zhou, L Li, and H Zhu (2013) Tensor regression with applications in neuroimaging data analysis, [_Journal of American Statistical Association_](http://www.tandfonline.com/doi/abs/10.1080/01621459.2013.776499#.UeW24mTXjbw), 108(502):540-552.  
 * Default article to cite for Tucker tensor regression:    
