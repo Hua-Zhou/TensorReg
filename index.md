@@ -5,13 +5,17 @@ title: TensorReg
 
 ## TensorReg Toolbox for Matlab
 
-TensorReg toolbox is a collection of Matlab functions for tensor regressions. 
+TensorReg toolbox is a collection of Matlab functions for tensor regressions.
 
 The toolbox is developed by [Hua Zhou](http://hua-zhou.github.io).  
 
 ### Compatibility
 
 The code is tested on Matlab R2017a, but should work on other versions of Matlab with no or little changes. Current version works on these platforms: Windows 64-bit, Linux 64-bit, and Mac (Intel 64-bit). Type `computer` in Matlab's command window to determine the platform.
+
+### Dependency
+
+TensorReg toolbox uses the Tensor Toolbox. Please install the [Tensor Toolbox](http://www.sandia.gov/~tgkolda/TensorToolbox/index-2.6.html) before installing the TensorReg toolbox.
 
 ### Installation (Matlab version >= 2014b)
 
@@ -57,4 +61,3 @@ H Zhou and L Li. (2014) Regularized matrix regression, [_Journal of Royal Statis
 ### Contacts
 
 Hua Zhou <huazhou@ucla.edu>
-
