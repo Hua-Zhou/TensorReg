@@ -15,7 +15,7 @@ The code is tested on Matlab R2017a, but should work on other versions of Matlab
 
 ### Dependency
 
-TensorReg toolbox uses the Tensor Toolbox. Please install the [Tensor Toolbox](http://www.sandia.gov/~tgkolda/TensorToolbox/index-2.6.html) before installing the TensorReg toolbox.
+TensorReg toolbox uses the Tensor Toolbox and SparseReg Toolbox. Please install the [Tensor Toolbox (v2.6)](https://github.com/andrewssobral/tensor_toolbox) and [SparseReg Toolbox](http://hua-zhou.github.io/SparseReg/) before installing the TensorReg toolbox.
 
 ### Installation (Matlab version >= 2014b)
 
@@ -24,7 +24,8 @@ Download the Matlab toolbox installation file [TensorReg.mltbx](./TensorReg.mltb
 
 ### Installation (Matlab version < 2014b)
 
-1. Download `ZIP File` file using the links on the left.  2. Extract the zip file.  
+1. Download `ZIP File` file using the links on the left.  
+2. Extract the zip file.  
 ```
 unzip Hua-Zhou-TensorReg-xxxxxxx.zip
 ```
@@ -54,7 +55,7 @@ H Zhou. Matlab TensorReg Toolbox Version 1.0, Available online, March 2017.
 * Default article to cite for Kruskal (CP) tensor regression:    
 H Zhou, L Li, and H Zhu (2013) Tensor regression with applications in neuroimaging data analysis, [_Journal of American Statistical Association_](http://www.tandfonline.com/doi/abs/10.1080/01621459.2013.776499#.UeW24mTXjbw), 108(502):540-552.  
 * Default article to cite for Tucker tensor regression:    
-X Li, H Zhou, and L Li (2013) Tucker tensor regression and neuroimaging analysis, \[[arXiv:1304.5637](http://arxiv.org/abs/1304.5637)\].    
+X Li, H Zhou, and L Li (2018) Tucker tensor regression and neuroimaging analysis, [Statistics in Biosciences](https://doi.org/10.1007/s12561-018-9215-6), 10(3):520-545.    
 * Default article to cite for regularized matrix regression:    
 H Zhou and L Li. (2014) Regularized matrix regression, [_Journal of Royal Statistical Society Series B_](http://onlinelibrary.wiley.com/doi/10.1111/rssb.12031/abstract), 76(2):463-483.  
 
